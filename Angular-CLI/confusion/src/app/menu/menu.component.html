@@ -1,0 +1,22 @@
+<div class="container"
+  fxLayout="column"
+  fxLayoutGap="10px">
+
+  <!--
+    <-mat-list> component allows to create a list of items that are included
+    in the template here. So this is an angular material list component. fxFlex attribute 
+    tells that thiis whole piece is one layout. 
+    <mat-list-item> is a list item similar to HTML <li> item.
+    *ngFor is a structural directive that enables to iterate over the list items of
+      array dishes of type Dish. Like a for loop. Dish becomes a JS object.
+    -->
+<mat-list fxFlex>
+  <mat-list-item *ngFor="let Dish of dishes">
+    <img matListAvatar src={{Dish.image}} alt={{Dish.name}}>
+    <h1 matLine>{{Dish.name}}</h1>
+    <p matLine><span>{{Dish.description}}</span> </p>
+  </mat-list-item>
+</mat-list>
+</div>
+
+
