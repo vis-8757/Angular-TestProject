@@ -1,8 +1,44 @@
+<!-- menu.component.html -->
 <div class="container"
   fxLayout="column"
   fxLayoutGap="10px">
 
-  <!--
+
+      <div fxFlex>
+          <div>
+            <h3>Menu</h3>
+            <hr>
+          </div>
+        </div>
+      
+        <div fxFlex>
+          <mat-grid-list cols="2" rowHeight="200px">
+            <mat-grid-tile *ngFor="let Dish of dishes" [routerLink]="['/dishdetail', Dish.id]">
+<!-- [routerLink] is an array n value passed as such. The first element in '/ ' will be passed as the 
+  second part of the URL upon click on that Dish. (watch)
+   Dish.id will be the id of the Dish in the loop. And it will be passed on along with dishdetail
+  as the routerLink by the  router module to the dishdetail component. (check link of routing after build) 
+-->
+  
+              <img height="200px" src={{Dish.image}} alt={{Dish.name}}>
+              <mat-grid-tile-footer>
+                <h1>{{Dish.name | uppercase}}</h1>
+              </mat-grid-tile-footer>
+            </mat-grid-tile>
+          </mat-grid-list>
+        </div>
+</div>
+<!-- we no longer need to display the dishdetail component beneath the menu comp now as we 
+want to display a new view upon click for a dish. so we remove the <app-dishdetail> 
+  And also we remove the (click)="onSelect(Dish)" after *ngFor and add 
+
+   <app-dishdetail [dish]="selectedDish"></app-dishdetail> 
+-->
+
+        
+  
+
+<!--
     <-mat-list> component allows to create a list of items that are included
     in the template here. So this is an angular material list component. fxFlex attribute 
     tells that thiis whole piece is one layout. 
@@ -10,13 +46,3 @@
     *ngFor is a structural directive that enables to iterate over the list items of
       array dishes of type Dish. Like a for loop. Dish becomes a JS object.
     -->
-<mat-list fxFlex>
-  <mat-list-item *ngFor="let Dish of dishes">
-    <img matListAvatar src={{Dish.image}} alt={{Dish.name}}>
-    <h1 matLine>{{Dish.name}}</h1>
-    <p matLine><span>{{Dish.description}}</span> </p>
-  </mat-list-item>
-</mat-list>
-</div>
-
-
