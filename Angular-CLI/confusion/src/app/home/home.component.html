@@ -1,3 +1,4 @@
+
 <div class="container"
      fxLayout="row"
      fxLayout.sm="column"
@@ -30,6 +31,19 @@
   <mat-card-content>
     <p>{{promotion.description}}
     </p>
+  </mat-card-content>
+</mat-card>
+
+<mat-card *ngIf="fLeader" fxFlex>
+  <mat-card-header>
+      <div mat-card-avatar></div>
+    <mat-card-title>
+      <h3>{{fLeader.name}}</h3>    
+    </mat-card-title>
+  </mat-card-header>
+  <img mat-card-image src={{fLeader.image}} alt={{fLeader.name}}>
+  <mat-card-content>
+    <p>{{fLeader.description}}</p>
   </mat-card-content>
 </mat-card>
 
