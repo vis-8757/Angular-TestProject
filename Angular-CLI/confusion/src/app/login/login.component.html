@@ -1,0 +1,46 @@
+<mat-toolbar color="primary">
+  Login
+<span class="flex-spacer"></span>
+<button mat-button mat-dialog-close>&times;</button>
+</mat-toolbar>
+
+<p>{{ user | json }}</p>
+<!-- user is a variable thatll be tied to the fields in the form
+   | json tells thst the info typed in is visible in fiels in real time -->
+
+<form novalidate #loginForm="ngForm" (ngSubmit)="onSubmit()">
+<!--novalidate cuz we are deactivating std html5 built in form validation and      
+    laeaving angular to validtae it. 
+  #loginForm="ngForm" is used so that the template ref. var (loginForm) refers to form
+and the var can be used for further form actions like in disabling submit button -->
+
+  <mat-dialog-content>
+    <p>
+      <mat-form-field>
+        <input matInput placeholder="Username" type="text" [(ngModel)]="user.username"
+         name="username" #username="ngModel" required>
+         <mat-error *ngIf="username.errors?.required">Username is required</mat-error>
+      </mat-form-field>
+ <!---user will be a js object in .ts file and will contain a username property
+  that will track the value that we put in this input field. 
+  That is why the user object has been tied to the input field with two way binding
+   so as to change code value from form input 
+  -----------------
+ if the error type is required  for username, then display the given error msg.
+-->
+
+      <mat-form-field>
+        <input matInput placeholder="Password" type="password" [(ngModel)]="user.password" 
+        name="password" #password="ngModel" required>
+        <mat-error *ngIf="password.errors?.required">Password is required</mat-error>
+      </mat-form-field>
+      <mat-checkbox [(ngModel)]="user.remember" name="remember">Remember Me</mat-checkbox>
+    </p>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <span class="flex-spacer"></span>
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button type="submit" mat-button class="background-primary text-floral-white" 
+    [disabled]="loginForm.form.invalid">Login</button>
+  </mat-dialog-actions>
+</form>

@@ -23,6 +23,12 @@ import { ContactComponent } from './contact/contact.component';
 import {LeaderService} from './services/leader.service';
 
 import {AppRoutingModule} from './app-routing/app-routing.module';
+import { LoginComponent } from './login/login.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { FormsModule } from '@angular/forms'; 
 
 @NgModule({
   declarations: [
@@ -33,24 +39,37 @@ import {AppRoutingModule} from './app-routing/app-routing.module';
     FooterComponent,
     HomeComponent,
     AboutComponent,
-    ContactComponent
+    ContactComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FlexLayoutModule,
+    MatFormFieldModule, 
+    MatInputModule,
+    MatCheckboxModule,
     BrowserAnimationsModule,
     MatToolbarModule,
-    FlexLayoutModule,
     MatListModule,
     MatGridListModule,
     MatCardModule,
     MatButtonModule,
+    MatDialogModule,
+    FormsModule 
+    //this supports template driven forms
   ],
+
   providers: [
     DishService,
     PromotionService,
     LeaderService
   ],
+  entryComponents:[
+LoginComponent
+  ],
+  //to make a comp available to be opened from another comp (without routing/reloading)
+  //we need to declare it as entryComp in here.
   bootstrap: [AppComponent]
 })
 export class AppModule { }

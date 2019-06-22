@@ -16,7 +16,8 @@ export class LeaderService {
     return LEADERS.filter((Leader)=>Leader.id)[id];
   }
  getFeaturedLeader():Leader{
-return LEADERS.filter((Leader)=>Leader.featured)[0];
+return LEADERS.filter((Lead)=>Lead.featured)[0];
+// it can be anything at the place of Lead.
  }
 
 }
