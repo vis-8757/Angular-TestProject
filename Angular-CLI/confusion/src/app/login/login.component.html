@@ -19,8 +19,9 @@ and the var can be used for further form actions like in disabling submit button
       <mat-form-field>
         <input matInput placeholder="Username" type="text" [(ngModel)]="user.username"
          name="username" #username="ngModel" required>
-         <mat-error *ngIf="username.errors?.required">Username is required</mat-error>
+        <mat-error *ngIf="username.errors?.required">Username is required</mat-error>
       </mat-form-field>
+
  <!---user will be a js object in .ts file and will contain a username property
   that will track the value that we put in this input field. 
   That is why the user object has been tied to the input field with two way binding
