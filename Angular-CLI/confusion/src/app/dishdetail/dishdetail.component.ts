@@ -27,7 +27,7 @@ export class DishdetailComponent implements OnInit {
 
   ngOnInit() {
     let id = this.route.snapshot.params['id'];
-    this.dish=this.dishservice.getDish(id);
+    this.dishservice.getDish(id).then((dish)=>this.dish=dish);
 
 // so when we click on a dish in menu comp, the routerLink there passes the dish id as parameters
 // to the router which then becomes available to dishdetail by accessing the ActivatedRoute 

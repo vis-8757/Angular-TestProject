@@ -15,8 +15,8 @@ export class LeaderService {
   getLeader(id:string):Leader{
     return LEADERS.filter((Leader)=>Leader.id)[id];
   }
- getFeaturedLeader():Leader{
-return LEADERS.filter((Lead)=>Lead.featured)[0];
+ getFeaturedLeader():Promise<Leader>{
+return Promise.resolve(LEADERS.filter((Lead)=>Lead.featured)[0]);
 // it can be anything at the place of Lead.
  }
 

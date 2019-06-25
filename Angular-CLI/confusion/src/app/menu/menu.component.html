@@ -11,7 +11,7 @@
           </div>
         </div>
       
-        <div fxFlex>
+        <div fxFlex *ngIf="dishes">
           <mat-grid-list cols="2" rowHeight="200px">
             <mat-grid-tile *ngFor="let Dish of dishes" [routerLink]="['/dishdetail', Dish.id]">
 <!-- [routerLink] is an array n value passed as such. The first element in '/ ' will be passed as the 
@@ -26,6 +26,10 @@
               </mat-grid-tile-footer>
             </mat-grid-tile>
           </mat-grid-list>
+        </div>
+
+        <div fxFlex [hidden]="dishes">
+          <mat-spinner></mat-spinner> <h4>Loading... Please Wait</h4>
         </div>
 </div>
 <!-- we no longer need to display the dishdetail component beneath the menu comp now as we 
