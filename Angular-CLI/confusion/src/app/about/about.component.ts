@@ -16,7 +16,8 @@ gLeader:Leader;
 
   ngOnInit() {
     //let id= LEADERS.id;
-    this.showleaders=this.leaderservice.getLeaders();
+   // this.showleaders=this.leaderservice.getLeaders();
+   this.leaderservice.getLeaders().then((showleaders)=>this.showleaders=showleaders);
     console.log(this.showleaders);
     let id1=LEADERS[2].id; 
     //get a way to show a ransom int number from 0 to 3 

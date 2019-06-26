@@ -54,8 +54,8 @@
   
  
       <h2>Corporate Leadership</h2>
-      <div *ngIf="showleaders">
-      <mat-list fxFlex>
+      <div fxFlex>
+      <mat-list *ngIf="showleaders">
           
         <mat-list-item *ngFor="let j of showleaders">
             <img matListAvatar src="../../assets/images/alberto.png" alt={{j.name}}>
@@ -66,7 +66,11 @@
               
             </mat-list-item>
           
-            </mat-list>
+          </mat-list>
+
+            <div fxFlex [hidden]="showleaders">
+              <mat-spinner></mat-spinner> <h4>Loading... Please Wait</h4>
+            </div>
      </div> 
      <!--<h5>{{gLeader.name}}</h5> -->
 

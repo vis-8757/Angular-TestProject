@@ -9,14 +9,14 @@ export class LeaderService {
 
   constructor() { }
 
-  getLeaders():Leader[]{
-    return LEADERS;
+  getLeaders():Promise<Leader[]>{
+    return new Promise(resolve=>{setTimeout(()=>resolve(LEADERS),2000)});
   }
   getLeader(id:string):Leader{
     return LEADERS.filter((Leader)=>Leader.id)[id];
   }
  getFeaturedLeader():Promise<Leader>{
-return Promise.resolve(LEADERS.filter((Lead)=>Lead.featured)[0]);
+return new Promise(resolve=>{setTimeout(()=>resolve(LEADERS.filter((Lead)=>Lead.featured)[0]),2000)});
 // it can be anything at the place of Lead.
  }
 
