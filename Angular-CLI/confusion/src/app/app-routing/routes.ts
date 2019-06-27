@@ -13,8 +13,12 @@ export const routes: Routes = [
     { path: 'home',  component: HomeComponent },
     { path: 'menu',     component: MenuComponent },
     { path: 'dishdetail/:id', component:DishdetailComponent},
+// :id becomes available as an observable that streams value of the dish id and whenever it changes
+//  we can take actions for it.
+ 
 // '/id:' is needed so that the dishdetail component doesnt just render any random dish. but by id.
 // it gets id as defined and supplied from router then renders accordingly.
+
     { path: '', redirectTo: '/home', pathMatch: 'full' },
     {path: 'contactus', component:ContactComponent}
   ];

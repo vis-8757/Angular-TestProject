@@ -5,7 +5,7 @@ import {Leader} from '../shared/leader';
 import {LEADERS} from '../shared/leaders';
 import {of, from, Observable} from 'rxjs';
 import {delay} from 'rxjs/operators';
-
+//observables return stream of data so if converted to promises they'll return only one vaulue
 
 @Injectable({
   providedIn: 'root'
@@ -35,7 +35,7 @@ export class DishService {
    
    return of (DISHES.filter((Dish)=>(Dish.id===id))[0]).pipe(delay(2000));
   }
-//check foutputs for dish.id and Dish.id
+//check foutputs for dish.id and Dish.id****  change observable to dish n CHECK ****
 
   getFeaturedDish(): Observable<Dish> {
     //return Promise.resolve(DISHES.filter((Dish) => Dish.featured)[0])
@@ -48,4 +48,10 @@ export class DishService {
 
   //promises and observables can return the same thing.
 }
+getDishIds():Observable<string [] | any> {
+  return of (DISHES.map(Dish=>Dish.id));
+  //check for difffernt name at first dish 
 }
+}
+
+
