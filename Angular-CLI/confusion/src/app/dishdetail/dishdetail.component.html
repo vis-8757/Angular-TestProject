@@ -9,7 +9,7 @@
  
     
 
-  <div *ngIf="dish">
+  <div *ngIf="dish" width="100%">
       <div fxFlex="40">
     <mat-card >
     <mat-card-header>
@@ -17,8 +17,8 @@
           <h3 *ngIf="dish">{{dish.name | uppercase}}</h3>
       </mat-card-title>
     </mat-card-header>
-      <img src={{dish.image}} alt={{dish.name}} >
-      <mat-card-content>
+      <img height="600px" width="400px" src="{{baseURL+dish.image}}" alt={{dish.name}}  >
+      <mat-card-content *ngIf="dish">
         <p>{{dish.desciption}}</p>
     </mat-card-content>
     <mat-card-actions>
@@ -34,27 +34,75 @@
     </mat-card>
   </div>
 
-  <div fxFlex="60" *ngIf="dish">  
-        <mat-list >
-            <h3>COMMENTS</h3>
-          <mat-list-item *ngFor="let comment of dish.comments "> 
+  <div fxFlex="60" *ngIf="dish" fxLayout="column" fxFlexOffset="25px">  
+         <div fxFlex >
+            <mat-list >
+                <h3>COMMENTS</h3>
+          <mat-list-item *ngFor="let j of dish.comments "> 
           
             <!-- its dish.comments here cuz dish:Dish in dishdetail's .ts . -->
            
-            <h5 matline>{{comment.comment}}</h5>
-            <p matline>{{comment.rating}} stars</p>
-            <hr>
+            <h5 matline>{{j.comment}}</h5>
+            <p matline>{{j.rating}} stars</p>            
             <p>
-              <span>-- {{comment.author}} {{comment.date | date:'fullDate'}}</span>
+              <span>-- {{j.author}} {{j.date | date:'fullDate'}}</span>
             </p>
-          </mat-list-item>
-        </mat-list>
-    
+          </mat-list-item>   
+</mat-list>
+         </div>
+<hr>
+<div fxFlex *ngIf="cusfeedform.valid" class="half-width">
+<mat-list>
+<mat-list-item >
+<p matLine>{{cusfeedform.value.author}}</p> 
+</mat-list-item>
+<mat-list-item >
+<p matLine>{{cusfeedform.value.rating}}</p>
+</mat-list-item>
+<mat-list-item>
+<p matLine>{{cusfeedform.value.comment}} </p> 
+</mat-list-item>
+</mat-list>
+</div>
+
+
+        <div fxFlex >
+          <h4>Please leave your feedback for the dish</h4>
+          <form novalidate [formGroup]="cusfeedform" (ngSubmit)="onSubmit()">
+            <p>
+              <mat-form-field class="half-width">
+                <input matInput  #auth (keyup)="0" formControlName="author" placeholder="Name" type="text" 
+                 required>
+                <mat-error *ngIf="formError.author">
+                  {{formError.author}}
+                </mat-error>
+              </mat-form-field>
+            </p>
+          <p>Rating 
+              <mat-slider min="1" max="5" step="1" value="5" thumbLabel tickInterval="1"
+             formControlName="rating" #slid (keyup)="0"> </mat-slider>  </p>
+            <p>
+              <mat-form-field class="full-width">
+                <textarea matInput #comm (keyup)="0" formControlName="comment" placeholder="Your Comment" 
+                type="text" rows="6" required>          
+                </textarea>
+                <mat-error *ngIf="formError.comment">
+                  {{formError.comment}}
+                </mat-error>
+              </mat-form-field>
+            </p>
+            <button type="submit" mat-button class="background-primary text-floral-white" 
+            [disabled]="cusfeedform.invalid">Submit</button>
+          </form>
+        </div> 
   </div>
 
-
 </div>
-<div fxFlex [hidden]="dish">
+<div fxFlex [hidden]="dish || errMess">
 <mat-spinner></mat-spinner> <h4>Loading... Please Wait</h4>
+</div>
+<div fxFlex *ngIf="errMess">
+  <h2>Error !</h2>
+  <h4>{{errMess}}</h4>
 </div>
 </div>

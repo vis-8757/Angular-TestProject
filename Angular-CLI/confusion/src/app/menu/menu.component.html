@@ -20,7 +20,7 @@
   as the routerLink by the  router module to the dishdetail component. (check link of routing after build) 
 -->
   
-              <img height="200px" src={{Dish.image}} alt={{Dish.name}}>
+              <img height="200px" src="{{baseURL + Dish.image}}" alt={{Dish.name}}>
               <mat-grid-tile-footer>
                 <h1>{{Dish.name | uppercase}}</h1>
               </mat-grid-tile-footer>
@@ -28,8 +28,12 @@
           </mat-grid-list>
         </div>
 
-        <div fxFlex [hidden]="dishes">
+        <div fxFlex [hidden]="dishes || errMess">
           <mat-spinner></mat-spinner> <h4>Loading... Please Wait</h4>
+        </div>
+        <div fxFlex *ngIf="errMess">
+          <h2>Error !</h2>
+          <h4>{{errMess}}</h4>
         </div>
 </div>
 <!-- we no longer need to display the dishdetail component beneath the menu comp now as we 

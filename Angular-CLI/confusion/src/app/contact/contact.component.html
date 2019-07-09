@@ -53,32 +53,43 @@
       <p>
         <mat-form-field class="half-width">
           <input matInput formControlName="firstname" placeholder="First Name" type="text" required>
-          <mat-error *ngIf="feedbackForm.get('firstname').hasError('required') 
-          && feedbackForm.get('firstname').touched">First name is required</mat-error>
+          <mat-error *ngIf="formErrors.firstname">
+            {{formErrors.firstname}}
+          </mat-error>
           <!--
           <mat-error *ngIf="firstname.errors?.required">First Name is required</mat-error>
           why not working ??
-          ans: cuz it works differently here :)
+          ans: cuz it works differently here in reactive forms:) that is for template driven forms.
           -->
         </mat-form-field>
         <mat-form-field class="half-width">
           <input matInput formControlName="lastname" placeholder="Last Name" type="text" required>
-         <mat-error *ngIf="feedbackForm.get('lastname').hasError('required') 
-         && feedbackForm.get('lastname').touched">Last name is required</mat-error>       
-        </mat-form-field>
+          <mat-error *ngIf="formErrors.lastname">
+              {{formErrors.lastname}}
+            </mat-error>
+
+       <!--  <mat-error *ngIf="feedbackForm.get('lastname').hasError('required') 
+         && feedbackForm.get('lastname').touched">Last name is required</mat-error>  -->     
+        </mat-form-field> 
       </p>
       <p>
         <mat-form-field class="half-width">
-          <input matInput formControlName="telnum" placeholder="Tel. Number" type="tel" required>
-          <mat-error *ngIf="feedbackForm.get('telnum').hasError('required') 
-         && feedbackForm.get('telnum').touched">Teleohone number is required</mat-error> 
+          <input matInput formControlName="telnum" placeholder="Tel. Number" type="tel" pattern="[0-9]*" required>
+    <!-- pattern was a validator. And its between 0 to 9. * shows that 0to9 can be repeated 
+      min no of numbers can be fixed too-->
+
+          <mat-error *ngIf="formErrors.telnum">
+              {{formErrors.telnum}}
+            </mat-error> 
         </mat-form-field>
         <mat-form-field class="half-width">
-          <input matInput formControlName="email" placeholder="Email" type="email" required>
-          <mat-error *ngIf="feedbackForm.get('email').hasError('required') 
-         && feedbackForm.get('email').touched">Email is required</mat-error> 
-        </mat-form-field>
+          <input matInput formControlName="email" placeholder="Email" type="email" email required>
+          <mat-error *ngIf="formErrors.email">
+              {{formErrors.email}}
+            </mat-error>
+            </mat-form-field>
       </p>
+
       <table class="form-size">
         <td>
           <mat-slide-toggle formControlName="agree">May we contact you?</mat-slide-toggle>

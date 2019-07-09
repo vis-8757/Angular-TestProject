@@ -33,6 +33,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ReactiveFormsModule } from '@angular/forms';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatSliderModule} from '@angular/material/slider';
+import {HttpClientModule} from '@angular/common/http';
+import {baseURL} from './shared/baseurl';
+import {ProcessHTTPMsgService} from './services/process-httpmsg.service';
 
 @NgModule({
   declarations: [
@@ -49,6 +53,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    HttpClientModule,
     FlexLayoutModule,
     MatFormFieldModule,
     ReactiveFormsModule,
@@ -65,17 +70,19 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     MatDialogModule,
     FormsModule,
     //this supports template driven forms
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatSliderModule
   ],
 
   providers: [
     DishService,
     PromotionService,
-    LeaderService
+    LeaderService,
+    ProcessHTTPMsgService,
+    {provide:'BaseURL', useValue:baseURL}
+    //to provide the base url as a variable value to the entire application
   ],
-  entryComponents:[
-LoginComponent
-  ],
+  entryComponents:[LoginComponent],
   //to make a comp available to be opened from another comp (without routing/reloading)
   //we need to declare it as entryComp in here.
   bootstrap: [AppComponent]
