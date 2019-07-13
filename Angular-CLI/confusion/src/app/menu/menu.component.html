@@ -13,7 +13,7 @@
       
         <div fxFlex *ngIf="dishes">
           <mat-grid-list cols="2" rowHeight="200px">
-            <mat-grid-tile *ngFor="let Dish of dishes" [routerLink]="['/dishdetail', Dish.id]">
+            <mat-grid-tile *ngFor="let Dish of dishes" [routerLink]="['/dishdetail', Dish.id]" appHighlight>
 <!-- [routerLink] is an array n value passed as such. The first element in '/ ' will be passed as the 
   second part of the URL upon click on that Dish. (watch)
    Dish.id will be the id of the Dish in the loop. And it will be passed on along with dishdetail

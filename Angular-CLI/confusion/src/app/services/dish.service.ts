@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {Dish} from '../shared/Dish';
 //import {DISHES} from '../shared/dishes';
 // no longer need to get value like this cux now we use json server for that.
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {baseURL} from '../shared/baseurl';
 import {Leader} from '../shared/leader';
 import {LEADERS} from '../shared/leaders';
@@ -64,6 +64,22 @@ getDishIds():Observable<string [] | any> {
   //cuz this is taking from getDishes() which is already covering for errors
   // so no catchError here. Error catching wont come to this point. 
 }
+putDish(dish:Dish):Observable<Dish>{
+  //the modified Dish is being sentback from the server as an observable 
+const httpOptions={
+  headers: new HttpHeaders({
+    'Content-Type':'application/json'
+  })
+// we are specifying to our server that the incoming request message contains 
+//the information in the form of a json object in the body of the incoming request message.
+//So, the server will be able to extract the Dish information from the body of the message, 
+//parse it, and then be able to persist the modified Dish to the server, and then 
+//send back the updated Dish information from the server side.
+};
+return this.http.put<Dish>(baseURL+'dishes/'+dish.id,dish, httpOptions).pipe(
+  catchError(this.proc.handleError));
+}
+//in put() 1st argument is for url 2nd for body and 3rd for options
 }
 
 

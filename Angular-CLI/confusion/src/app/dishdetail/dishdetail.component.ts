@@ -15,12 +15,26 @@ import {DishService} from '../services/dish.service';
 import {switchMap} from 'rxjs/operators';
 import {Comment} from '../shared/comment';
 import { FormBuilder, FormGroup, Validators, FormControl, FormGroupDirective } from '@angular/forms';
+import {trigger, state, style, animate, transition} from '@angular/animations';
 
 
 @Component({
   selector: 'app-dishdetail',
   templateUrl: './dishdetail.component.html',
-  styleUrls: ['./dishdetail.component.scss']
+  styleUrls: ['./dishdetail.component.scss'],
+  animations:[
+    trigger('visibility',[
+      state('shown',style({
+        transform:'scale(1)',
+        opacity:1
+      })),
+      state('hidden',style({
+        transform:'scale(0.5)',
+        opacity:0
+      })),
+      transition('*=>*',animate("0.5s ease-in-out"))
+    ])
+  ]
 })
 
 export class DishdetailComponent implements OnInit {
@@ -31,6 +45,8 @@ export class DishdetailComponent implements OnInit {
   prev: string;
   next: string;
   errMess:string;
+  dishcopy:Dish;
+  visibility='shown';
   
   @ViewChild(FormGroupDirective) customFeed:FormGroupDirective;
 
@@ -70,10 +86,11 @@ validationMessage={
 // service up here.
 //  Q: onClick detection how ??
 
-
   this.dishservice.getDishIds().subscribe(dishIds=>this.dishIds=dishIds);
-  this.route.params.pipe(switchMap((params:Params)=>this.dishservice.getDish(params['id'])))
-  .subscribe((dish)=>{this.dish=dish; this.setPrevNext(dish.id)}, varErr=>this.errMess=<any>varErr);
+  this.route.params.pipe(switchMap((params:Params)=>{this.visibility='hidden'; 
+  return this.dishservice.getDish(params['id'])}))
+  .subscribe((dish)=>{this.dish=dish; this.dishcopy=dish; this.setPrevNext(dish.id);this.visibility='shown'}, 
+  varErr=>this.errMess=<any>varErr);
 
 // when params change value (i.e. when route parameter changes value) the switchMap operator will take this
 // value and do a getDish() from the dishservice and that will be available as another OBSERVABLE
@@ -139,7 +156,15 @@ onSubmit(){
     author: this.cusfeedform.controls.author.value,
     date: new Date().toISOString()
    }
- DISHES[this.dish.id].comments.push(b);
+ //DISHES[this.dish.id].comments.push(b);
+
+ this.dishcopy.comments.push(b);
+ this.dishservice.putDish(this.dishcopy).subscribe(newDishData=>{this.dish=newDishData;
+  this.dishcopy=newDishData}, varErr=>{this.dish=null; this.dishcopy=null;
+    this.errMess=<any>varErr});
+//here we are updating the original dish with newDishData from server after 
+//the server replies back with its updated data.
+
  console.log(this.cusfeedform.controls.rating.value, this.cusfeedform.controls.comment.value);
 
   this.cusfeedform.reset({
