@@ -40,7 +40,7 @@
     <h3>Send us your Feedback</h3>
       <p>{{ feedbackForm.value | json }} {{ feedbackForm.status | json }}</p>
 
-    <form novalidate [formGroup]="feedbackForm" (ngSubmit)="onSubmit()">
+    <form novalidate [formGroup]="feedbackForm" (ngSubmit)="onSubmit()" [hidden]="boolSubmit">
 <!--
    if you are creating form controls with the form control class, you would 
    declare this as form control within square brackets and then match it with 
@@ -52,7 +52,7 @@
  -->
       <p>
         <mat-form-field class="half-width">
-          <input matInput formControlName="firstname" placeholder="First Name" type="text" required>
+          <input matInput formControlName="firstname"  placeholder="First Name" type="text" required>
           <mat-error *ngIf="formErrors.firstname">
             {{formErrors.firstname}}
           </mat-error>
@@ -74,7 +74,7 @@
       </p>
       <p>
         <mat-form-field class="half-width">
-          <input matInput formControlName="telnum" placeholder="Tel. Number" type="tel" pattern="[0-9]*" required>
+          <input matInput formControlName="telnum" #fn (keyup)="0" placeholder="Tel. Number" type="tel" pattern="[0-9]*" required>
     <!-- pattern was a validator. And its between 0 to 9. * shows that 0to9 can be repeated 
       min no of numbers can be fixed too-->
 
@@ -112,4 +112,38 @@
         </form>
       </div>
 
+  <div fxFlex *ngIf="errMess">
+   <h4>Error !</h4>
+   <p>{{errMess}}</p>
+  </div>
+  <div fxFlex *ngIf="(boolSubmit && !testFeed)" [@expand]>
+     <h4>Submitting Form...</h4>
+     <mat-spinner></mat-spinner>
+  </div>
+  <div fxFlex *ngIf="testFeed && boolSubmit2" [@expand]>
+    <mat-list>
+      <h3>Your Submission</h3>
+      <mat-list-item>
+        <p>First Name: {{feedbackForm.value.firstname}}</p>
+      </mat-list-item>
+      <mat-list-item>
+        <p>Last Name: {{feedbackForm.value.lastname}}</p>
+      </mat-list-item>
+      <mat-list-item>
+        <p>Tel. Number: {{fn.value}}</p>
+      </mat-list-item>
+      <mat-list-item>
+        <p>Email: {{feedbackForm.value.email}}</p>
+      </mat-list-item>
+      <mat-list-item>
+        <p>Contact You? : {{feedbackForm.value.agree}}</p>
+      </mat-list-item>
+    <mat-list-item>
+      <p>How ? : {{feedbackForm.value.contacttype}}</p>
+    </mat-list-item>
+    <mat-list-item>
+      <p>Feedback:  {{feedbackForm.value.message}}</p>
+    </mat-list-item>
+    </mat-list>
+  </div>
 </div>

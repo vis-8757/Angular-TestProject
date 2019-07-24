@@ -5,10 +5,20 @@ import {Dish} from '../shared/Dish';
 //not an ideal way to import DISHES object. Its supposed to be done by a service. 
 import {DishService} from '../services/dish.service';
 import { baseURL } from '../shared/baseurl';
+import {flyInOut,expand} from '../app.animation';
+
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.scss']
+  styleUrls: ['./menu.component.scss'],
+  host: {
+    '[@flyInOut]': 'true',
+    'style': 'display: block;'
+    },
+    animations: [
+      flyInOut(),
+      expand()
+    ]
 })
 export class MenuComponent implements OnInit {
   //dishes is a variable which is an array of Dish type

@@ -15,7 +15,9 @@ import {DishService} from '../services/dish.service';
 import {switchMap} from 'rxjs/operators';
 import {Comment} from '../shared/comment';
 import { FormBuilder, FormGroup, Validators, FormControl, FormGroupDirective } from '@angular/forms';
-import {trigger, state, style, animate, transition} from '@angular/animations';
+//import {trigger, state, style, animate, transition} from '@angular/animations';
+import { visibility } from '../app.animation';
+import { CanActivate } from '@angular/router/src/utils/preactivation';
 
 
 @Component({
@@ -23,17 +25,7 @@ import {trigger, state, style, animate, transition} from '@angular/animations';
   templateUrl: './dishdetail.component.html',
   styleUrls: ['./dishdetail.component.scss'],
   animations:[
-    trigger('visibility',[
-      state('shown',style({
-        transform:'scale(1)',
-        opacity:1
-      })),
-      state('hidden',style({
-        transform:'scale(0.5)',
-        opacity:0
-      })),
-      transition('*=>*',animate("0.5s ease-in-out"))
-    ])
+    visibility()
   ]
 })
 
@@ -88,13 +80,13 @@ validationMessage={
 
   this.dishservice.getDishIds().subscribe(dishIds=>this.dishIds=dishIds);
   this.route.params.pipe(switchMap((params:Params)=>{this.visibility='hidden'; 
-  return this.dishservice.getDish(params['id'])}))
-  .subscribe((dish)=>{this.dish=dish; this.dishcopy=dish; this.setPrevNext(dish.id);this.visibility='shown'}, 
+  return this.dishservice.getDish(params['id'])})) //getting a full dish by id
+  .subscribe((xyz)=>{this.dish=xyz; this.dishcopy=xyz; this.setPrevNext(xyz.id);this.visibility='shown'}, 
   varErr=>this.errMess=<any>varErr);
 
 // when params change value (i.e. when route parameter changes value) the switchMap operator will take this
-// value and do a getDish() from the dishservice and that will be available as another OBSERVABLE
-// emitted by doing a switchMap operator on the params OBSERVABLE.
+// value and do a getDish() [with that changed route id] from the dishservice and that will be available
+ // as another OBSERVABLE emitted by doing a switchMap operator on the params OBSERVABLE.
 // then we subscribe to that getDish() observable.
 // so a new observable getDish() has been created which returns an object containing all details of a dish as per it's id.   
   
@@ -163,8 +155,9 @@ onSubmit(){
   this.dishcopy=newDishData}, varErr=>{this.dish=null; this.dishcopy=null;
     this.errMess=<any>varErr});
 //here we are updating the original dish with newDishData from server after 
-//the server replies back with its updated data.
-
+//the server replies back with its updated data. 
+//the use of dishcopy is only to put the feedback data onto the server. 
+//afterwards when the server replies back, that info is used to udate the original dish 
  console.log(this.cusfeedform.controls.rating.value, this.cusfeedform.controls.comment.value);
 
   this.cusfeedform.reset({

@@ -11,6 +11,7 @@
 
   <div *ngIf="dish" width="100%">
       <div fxFlex="40" [@visibility]="visibility">
+        <!--Applying the visibility trigger-->
     <mat-card >
     <mat-card-header>
        <mat-card-title>
@@ -60,7 +61,7 @@
 <p matLine>{{cusfeedform.value.rating}}</p>
 </mat-list-item>
 <mat-list-item>
-<p matLine>{{cusfeedform.value.comment}} </p> 
+<p matLine>{{comm.value}} </p> 
 </mat-list-item>
 </mat-list>
 </div>
@@ -80,7 +81,7 @@
             </p>
           <p>Rating 
               <mat-slider min="1" max="5" step="1" value="5" thumbLabel tickInterval="1"
-             formControlName="rating" #slid (keyup)="0"> </mat-slider>  </p>
+             formControlName="rating" #slid (keyup)="5"> </mat-slider>  </p>
             <p>
               <mat-form-field class="full-width">
                 <textarea matInput #comm (keyup)="0" formControlName="comment" placeholder="Your Comment" 

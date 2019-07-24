@@ -34,14 +34,14 @@ export class DishService {
    // return of (DISHES).pipe(delay(2000));
    // we are ditching the observable method above to fetch data from json server
    return this.http.get<Dish[]>(baseURL+'dishes').pipe(catchError(this.proc.handleError));
-  }
+  }                                                                     
  
 
-  getDish(id: string): Observable<Dish> {
+  getDish(id1: string): Observable<Dish> {
    // return new  Promise(resolve=>{setTimeout( () =>resolve(DISHES.filter((Dish)=>(Dish.id===id))[0]),2000)});
    
    //return of (DISHES.filter((Dish)=>(Dish.id===id))[0]).pipe(delay(2000));
-   return this.http.get<Dish>(baseURL+'dishes/'+id).pipe(catchError(this.proc.handleError));
+   return this.http.get<Dish>(baseURL+'dishes/'+id1).pipe(catchError(this.proc.handleError));
   }
 //check foutputs for dish.id and Dish.id****  change observable to dish n CHECK ****
 
@@ -75,11 +75,13 @@ const httpOptions={
 //So, the server will be able to extract the Dish information from the body of the message, 
 //parse it, and then be able to persist the modified Dish to the server, and then 
 //send back the updated Dish information from the server side.
+//when is the comment data beinng converted to json ?
+//--> here only ['Content-Type':'application/json']. maybe    
 };
 return this.http.put<Dish>(baseURL+'dishes/'+dish.id,dish, httpOptions).pipe(
   catchError(this.proc.handleError));
 }
-//in put() 1st argument is for url 2nd for body and 3rd for options
+//input() 1st argument is for url 2nd for body and 3rd for options
 }
 
 

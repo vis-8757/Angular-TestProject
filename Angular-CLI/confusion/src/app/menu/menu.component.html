@@ -11,7 +11,7 @@
           </div>
         </div>
       
-        <div fxFlex *ngIf="dishes">
+        <div fxFlex *ngIf="dishes" [@expand]>
           <mat-grid-list cols="2" rowHeight="200px">
             <mat-grid-tile *ngFor="let Dish of dishes" [routerLink]="['/dishdetail', Dish.id]" appHighlight>
 <!-- [routerLink] is an array n value passed as such. The first element in '/ ' will be passed as the 

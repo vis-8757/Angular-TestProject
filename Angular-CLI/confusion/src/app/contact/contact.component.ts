@@ -2,11 +2,25 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 //ViewChild to get access to all child elements in the DOM
 import { FormBuilder, FormGroup, Validators, FormControl, FormGroupDirective } from '@angular/forms';
 import { Feedback, ContactType } from '../shared/feedback';
+import {FeedbackServiceService} from '../services/feedback-service.service';
+import {Params, ActivatedRoute} from '@angular/router';
+//import {RouterModule, Routes} from '@angular/router';
+import {Router} from '@angular/router';
+import {flyInOut,expand,visibility} from '../app.animation';
 
 @Component({
   selector: 'app-contact',
   templateUrl: './contact.component.html',
-  styleUrls: ['./contact.component.scss']
+  styleUrls: ['./contact.component.scss'],
+  animations:[
+    flyInOut(),
+    visibility(),
+    expand()
+  ],
+  host:{
+    '[@flyInOut]':'true',
+    'style':'display:block;'
+  }
 })
 
 export class ContactComponent implements OnInit {
@@ -16,7 +30,14 @@ export class ContactComponent implements OnInit {
 
   feedbackForm: FormGroup;
   feedback: Feedback;
+  feedbackFormCopy:Feedback;
+  testFeed:Feedback;
+  myVar:any;
+  errMess:string;
+  abc:string;
   contactType = ContactType;
+  boolSubmit:boolean;
+  boolSubmit2:boolean;
   formErrors = {
     'firstname': '',
     'lastname': '',
@@ -45,7 +66,8 @@ export class ContactComponent implements OnInit {
     }
   };
 
-  constructor(private fb:FormBuilder) {
+  constructor(private fb:FormBuilder, private feedserv:FeedbackServiceService, private router1:Router,
+   private route:ActivatedRoute ) {
     this.createForm();
    }
 //createForm can be defined in the constructior itself but we might need the 
@@ -95,15 +117,15 @@ onValueChanged(data?:any){
 }
 }
 
-onSubmit() {
+
+clearForm(){
   //this.feedback = this.feedbackForm.value;
   //form model (feedback.ts) is exactly the same as data model (conact.comp.ts file) so 
   //the value of form model is directly taken.
   // The feedbackForm gives a property called value, which allows  to retrieve the current value
   // of all these from my feedback form. So this will form a JavaScript object, which  can 
   //then be mapped into the feedback JavaScript object.
-
-  console.log(this.feedbackForm.value);
+  console.log(this.feedbackForm.value,this.feedbackFormCopy.firstname)// this.testFeed.firstname,this.abc);
   this.feedbackForm.reset({
     firstname: '',
     lastname: '',
@@ -113,9 +135,43 @@ onSubmit() {
     contacttype: 'None',
     message: ''
   });
-// we put it like the same object as in create form so that it returns to exactly same stata upon submit
+// we put it like the same object as in create form so that it returns to exactly same state upon submit
 
 this.ffy.resetForm();
+this.boolSubmit=false;
+}
+navigateToContactUs(){
+  this.router1.navigate (['../contactus'],{relativeTo:this.route});
+}
+
+/** myFunc(){
+  if(this.testFeed){
+    this.myVar=setTimeout(this.clearForm,5000);
+ } }
+
+//getValues(){
+//this.feedserv.returnFirstName(this.abc).subscribe(firName=>{this.abc=firName},varErr=>this.errMess=<any>varErr);}
+**/
+onSubmit() {
+
+  this.feedbackFormCopy={
+    firstname:this.feedbackForm.controls.firstname.value,
+    lastname:this.feedbackForm.controls.lastname.value,
+    telnum:this.feedbackForm.controls.telnum.value,
+    email:this.feedbackForm.controls.email.value,
+    agree:this.feedbackForm.controls.agree.value,
+    contacttype:this.feedbackForm.controls.contacttype.value,
+    message:this.feedbackForm.controls.message.value
+  }
+  this.boolSubmit=true;
+  this.feedserv.submitFeedback(this.feedbackFormCopy).subscribe((newData=>{this.testFeed=newData;
+    setTimeout(this.navigateToContactUs,5000); }),
+  (  varErr: any)=>{this.testFeed=null; this.errMess=<any>varErr});
+  this.boolSubmit2=true;
+
 }
 
 }
+
+//The Aim is to not clear form data upon onSubmit() so as to be able to display it afterwards.
+//Rather navigate to contactUs page afresh, 5secs after displaying sunmitted information.
