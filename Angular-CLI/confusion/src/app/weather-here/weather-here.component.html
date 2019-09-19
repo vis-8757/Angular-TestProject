@@ -1,0 +1,20 @@
+<div class="container" fxLayout="column" fxLayoutGap="10px">
+  <div fxFlex class="weather">
+    <p *ngIf="!weather">Searching...</p>
+    <p *ngIf="valid">Cant retrieve geolocation...</p>
+    <div *ngIf="weather">
+      <table style="width: 100%; text-align: center">
+        <thead></thead>
+        <tbody>
+          <tr>
+            <td *ngFor="let forecast of weather">
+              <img [src]="forecast.iconLink" />
+              <p>{{ forecast.highTemperature }}C</p>
+              <p>{{ forecast.utcTime }}</p>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

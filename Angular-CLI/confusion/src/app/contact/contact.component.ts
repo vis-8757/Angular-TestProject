@@ -154,7 +154,7 @@ navigateToContactUs(){
 **/
 onSubmit() {
 
-  this.feedbackFormCopy={
+  this.feedbackFormCopy={ 
     firstname:this.feedbackForm.controls.firstname.value,
     lastname:this.feedbackForm.controls.lastname.value,
     telnum:this.feedbackForm.controls.telnum.value,
